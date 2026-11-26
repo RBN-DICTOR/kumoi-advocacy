@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kumoi for Advocacy and Legal Consultancy | Juba, South Sudan</title>
+<meta name="description" content="Kumoi for Advocacy and Legal Consultancy is a legal practice in Juba, South Sudan offering legal advice, advocacy and representation.">
+<meta name="theme-color" content="#f3ebdf">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+} }
+</script>
+<style>
+:root{
+  --bg:#f3ebdf; --ink:#2a1810; --mute:rgba(42,24,16,.7); --line:rgba(42,24,16,.15);
+  --brown:#5b3420; --rust:#8a4a22; --tan:#c79a6a; --gold:#b8863f;
+  --glass:rgba(255,250,242,.78); --serif:'Cormorant Garamond',Georgia,serif; --sans:'Manrope',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scrollbar-width:none;-webkit-text-size-adjust:100%}
+html::-webkit-scrollbar{display:none}
+body{background:linear-gradient(#f0d9bd,#f6efe4);color:var(--ink);font-family:var(--sans);line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+#gl{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0}
+.soft{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse at center,transparent 55%,rgba(42,24,16,.18) 100%)}
+
+/* preloader */
+#pre{position:fixed;inset:0;z-index:100;background:var(--bg);display:grid;place-items:center;transition:opacity 1s ease .15s,visibility 1s .15s}
+body.loaded #pre{opacity:0;visibility:hidden;pointer-events:none}
+.pre-in{text-align:center;padding:0 20px}
+.pre-mark{width:96px;height:96px;margin:0 auto 18px}
+.pre-mark svg{width:100%;height:100%}
+.pre-mark .draw{stroke-dasharray:300;stroke-dashoffset:300;animation:draw 1.8s ease forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.pre-name{font-family:var(--serif);font-size:clamp(34px,6vw,56px);letter-spacing:.2em;font-weight:500;color:var(--brown)}
+.pre-sub{font-size:10.5px;letter-spacing:.42em;text-transform:uppercase;color:var(--rust);margin-top:2px}
+.pre-bar{width:min(240px,60vw);height:1px;background:var(--line);margin:26px auto 10px;overflow:hidden}
+.pre-bar i{display:block;height:100%;background:var(--rust);transform:scaleX(0);transform-origin:left}
+.pre-pct{font-size:12px;letter-spacing:.3em;color:var(--mute);font-variant-numeric:tabular-nums}
+#pre .msg{display:none;margin:18px auto 0;font-size:13px;color:var(--mute);max-width:320px}
+
+/* nav */
+nav.top{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:20px 4vw;gap:20px;transition:all .4s}
+nav.top.scrolled{padding-top:12px;padding-bottom:12px;background:rgba(243,235,223,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:12px}
+.brand .mk{width:44px;height:44px;border:1px solid var(--brown);display:grid;place-items:center;background:rgba(255,250,242,.6)}
+.brand .mk svg{width:28px;height:28px}
+.brand b{display:block;font-family:var(--serif);font-weight:600;font-size:24px;line-height:1;letter-spacing:.18em;color:var(--brown)}
+.brand small{display:block;font-size:8.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--rust);margin-top:3px}
+.links{display:flex;gap:28px;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:600}
+.links a{position:relative;padding:6px 0;color:var(--mute);transition:color .3s}
+.links a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:100%;background:var(--rust);transform:scaleX(0);transform-origin:right;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.links a:hover,.links a.on{color:var(--ink)}
+.links a:hover::after,.links a.on::after{transform:scaleX(1);transform-origin:left}
+.btn{display:inline-flex;align-items:center;gap:12px;padding:16px 28px;border-radius:3px;font-size:11.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;background:var(--brown);color:#fff7ea;transition:transform .3s,box-shadow .35s,background .3s;box-shadow:0 14px 34px -14px rgba(91,52,32,.75)}
+.btn:hover{background:var(--rust);transform:translateY(-2px)}
+.btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.6}
+.btn.ghost{background:rgba(255,250,242,.7);color:var(--ink);border:1px solid var(--line);box-shadow:none;backdrop-filter:blur(8px)}
+.btn.ghost:hover{border-color:var(--brown);background:#fff}
+.btn.sm{padding:12px 20px}
+.burger{display:none;width:44px;height:44px;border:1px solid var(--line);border-radius:3px;background:rgba(255,250,242,.7);place-items:center}
+.burger i{display:block;width:18px;height:1.5px;background:var(--ink);position:relative}
+.burger i::before,.burger i::after{content:"";position:absolute;left:0;width:18px;height:1.5px;background:var(--ink)}
+.burger i::before{top:-6px}.burger i::after{top:6px}
+#menu{position:fixed;inset:0;z-index:70;background:rgba(243,235,223,.97);display:flex;flex-direction:column;justify-content:center;padding:0 9vw;gap:6px;opacity:0;visibility:hidden;transition:opacity .4s,visibility .4s}
+#menu.open{opacity:1;visibility:visible}
+#menu a{font-family:var(--serif);font-size:clamp(38px,11vw,60px);line-height:1.15;color:var(--brown)}
+#menu a em{font-size:.4em;color:var(--rust);margin-right:12px;font-style:italic}
+#menu .x{position:absolute;top:18px;right:4vw;font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;padding:12px}
+
+/* layout */
+main{position:relative;z-index:10}
+section{min-height:100vh;min-height:100svh;padding:15vh 7vw 11vh;display:flex;align-items:center;position:relative}
+.left{max-width:640px}
+.right{max-width:580px;margin-left:auto}
+.panel{padding:clamp(26px,3.2vw,46px);background:var(--glass);border:1px solid rgba(255,255,255,.75);backdrop-filter:blur(18px) saturate(1.2);-webkit-backdrop-filter:blur(18px) saturate(1.2);border-radius:6px;box-shadow:0 40px 90px -50px rgba(42,24,16,.6)}
+.eyebrow{display:flex;align-items:center;gap:14px;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--rust);font-weight:700;margin-bottom:22px}
+.eyebrow b{font-family:var(--serif);font-style:italic;font-weight:500;font-size:19px;letter-spacing:.05em;color:var(--ink)}
+.eyebrow::after{content:"";width:46px;height:1px;background:var(--rust)}
+h1,h2{font-family:var(--serif);font-weight:500;line-height:1;letter-spacing:-.01em;color:var(--brown)}
+h1{font-size:clamp(48px,7vw,108px)}
+h2{font-size:clamp(38px,4.8vw,72px);margin-bottom:22px}
+h1 em,h2 em{font-style:italic;color:var(--rust)}
+p.lead{font-size:clamp(15.5px,1.2vw,17.5px);color:var(--mute);max-width:540px}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.glass{background:var(--glass);border:1px solid rgba(255,255,255,.8);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:6px;box-shadow:0 24px 60px -36px rgba(42,24,16,.55)}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(32px);filter:blur(6px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1),filter .9s;transition-delay:calc(var(--d,0)*90ms + .1s)}
+.in .rv{opacity:1;transform:none;filter:none}
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .05em .16em;margin-bottom:-.16em}
+.w>span{display:inline-block;transform:translateY(118%) rotate(4deg);transition:transform 1.15s cubic-bezier(.2,.8,.2,1);transition-delay:calc(var(--i)*70ms + .15s)}
+.in .w>span{transform:none}
+
+/* hero */
+#hero::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(243,235,223,.9) 0%,rgba(243,235,223,.55) 38%,transparent 66%);pointer-events:none}
+#hero .left{position:relative}
+#hero .meta{display:flex;flex-wrap:wrap;gap:10px 30px;margin-top:44px;padding-top:20px;border-top:1px solid var(--line);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);font-weight:600}
+.scrollcue{position:absolute;left:7vw;bottom:34px;display:flex;align-items:center;gap:14px;font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--mute)}
+.scrollcue i{width:60px;height:1px;background:linear-gradient(90deg,var(--rust),transparent);animation:drip 2s ease-in-out infinite;transform-origin:left}
+@keyframes drip{0%{transform:scaleX(0)}50%{transform:scaleX(1)}100%{transform:scaleX(1);opacity:0}}
+
+/* about */
+.pillars{display:grid;margin-top:28px;border-top:1px solid var(--line)}
+.pillar{display:flex;gap:22px;padding:17px 0;border-bottom:1px solid var(--line);align-items:flex-start}
+.pillar b{font-family:var(--serif);font-style:italic;font-weight:500;font-size:32px;color:var(--rust);line-height:1;min-width:34px}
+.pillar h4{font-size:12px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;margin-bottom:2px}
+.pillar p{font-size:14.5px;color:var(--mute)}
+
+/* services */
+#services{flex-direction:column;align-items:stretch;justify-content:flex-end}
+#services .head{margin-bottom:26px}
+#services .head .t{display:inline-block;padding:26px 34px 14px}
+#services h2{margin:0}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;perspective:1100px}
+.card{padding:26px 26px 24px;position:relative;transform-style:preserve-3d;transition:transform .25s ease-out;overflow:hidden;min-height:176px}
+.card::before{content:"";position:absolute;left:0;top:0;height:3px;width:100%;background:var(--rust);transform:scaleX(0);transform-origin:left;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.card:hover::before{transform:scaleX(1)}
+.card::after{content:"";position:absolute;inset:0;background:radial-gradient(380px circle at var(--mx,50%) var(--my,0%),rgba(184,134,63,.16),transparent 55%);opacity:0;transition:opacity .35s;pointer-events:none}
+.card:hover::after{opacity:1}
+.card .n{font-family:var(--serif);font-style:italic;font-size:19px;color:var(--rust)}
+.card h3{font-family:var(--serif);font-weight:600;font-size:28px;line-height:1.05;margin:16px 0 8px;color:var(--brown);transform:translateZ(26px)}
+.card p{font-size:14px;color:var(--mute);transform:translateZ(10px)}
+
+/* process */
+.steps{position:relative;margin-top:28px;padding-left:46px}
+.steps::before{content:"";position:absolute;left:11px;top:6px;bottom:6px;width:1px;background:linear-gradient(var(--rust),rgba(138,74,34,.1));transform-origin:top;transform:scaleY(0);transition:transform 2.2s cubic-bezier(.3,.7,.2,1) .3s}
+.in .steps::before{transform:scaleY(1)}
+.step{position:relative;padding-bottom:22px}
+.step:last-child{padding-bottom:0}
+.step::before{content:"";position:absolute;left:-41px;top:8px;width:11px;height:11px;border-radius:50%;background:#fff;border:1px solid var(--rust);box-shadow:0 0 0 4px rgba(138,74,34,.14)}
+.step small{font-size:11px;letter-spacing:.3em;color:var(--rust);text-transform:uppercase;font-weight:700}
+.step h4{font-family:var(--serif);font-size:32px;font-weight:600;line-height:1.1;margin:2px 0 3px;color:var(--brown)}
+.step p{font-size:14.5px;color:var(--mute);max-width:430px}
+
+/* values */
+.vals{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:26px}
+.val{padding:20px 20px 18px;background:rgba(255,250,242,.75);border:1px solid var(--line);border-radius:5px}
+.val svg{width:28px;height:28px;stroke:var(--rust);fill:none;stroke-width:1.3;margin-bottom:12px}
+.val h4{font-family:var(--serif);font-size:25px;font-weight:600;line-height:1.1;margin-bottom:4px;color:var(--brown)}
+.val p{font-size:13.5px;color:var(--mute)}
+
+/* contact */
+#contact{flex-direction:column;align-items:stretch;justify-content:center;padding-bottom:0}
+.contact-wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:36px;align-items:center;margin-bottom:8vh}
+.info{padding:30px 32px 26px;display:grid;gap:20px}
+.info .row{display:flex;gap:18px;align-items:flex-start}
+.info .row svg{flex:none;width:22px;height:22px;stroke:var(--rust);fill:none;stroke-width:1.4;margin-top:3px}
+.info small{display:block;font-size:10.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--rust);font-weight:700;margin-bottom:2px}
+.info span{font-size:16.5px}
+.info .sub{font-size:13px;color:var(--mute);display:block}
+.info a.u{border-bottom:1px solid var(--rust)}
+.copy{margin-left:12px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--rust);border:1px solid rgba(138,74,34,.4);border-radius:3px;padding:4px 10px;vertical-align:middle;transition:all .3s}
+.copy:hover{background:var(--rust);color:#fff}
+footer{border-top:1px solid var(--line);padding:22px 0 96px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:12px;color:var(--mute);letter-spacing:.05em;background:linear-gradient(transparent,rgba(243,235,223,.85))}
+footer em{font-style:normal;color:var(--ink);font-weight:700}
+
+/* HUD */
+.topbar{position:fixed;left:0;top:0;height:2px;z-index:60;background:var(--rust);width:calc(var(--p,0)*100%)}
+.tl{position:fixed;right:2vw;top:50%;transform:translateY(-50%);z-index:40;display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+.tl a{display:flex;align-items:center;gap:12px;padding:5px 0;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:rgba(42,24,16,.45);transition:color .3s;font-weight:600}
+.tl a b{font-family:var(--serif);font-style:italic;font-weight:500;font-size:16px;letter-spacing:.04em;opacity:.8}
+.tl a i{width:20px;height:1px;background:currentColor;transition:width .4s}
+.tl a:hover{color:var(--ink)}
+.tl a.on{color:var(--rust)}
+.tl a.on i{width:44px}
+.tour{position:fixed;left:4vw;bottom:24px;z-index:45;display:flex;align-items:center;gap:14px;padding:8px 22px 8px 8px;border-radius:999px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:700}
+.tour:hover{border-color:var(--rust)}
+.tour .ring{position:relative;width:38px;height:38px;border-radius:50%;background:conic-gradient(var(--rust) calc(var(--p,0)*360deg),rgba(42,24,16,.15) 0);display:grid;place-items:center}
+.tour .ring::before{content:"";position:absolute;inset:3px;border-radius:50%;background:#fff}
+.tour .ring svg{position:relative;width:12px;height:12px;fill:var(--rust)}
+.tour .pause{display:none}.tour.on .pause{display:block}.tour.on .play{display:none}
+.hint{position:fixed;left:50%;bottom:30px;transform:translateX(-50%);z-index:40;font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:var(--mute);display:flex;gap:10px;align-items:center}
+.hint kbd{font-family:var(--sans);border:1px solid var(--line);border-radius:3px;padding:1px 7px;background:rgba(255,255,255,.6)}
+
+@media (max-width:1100px){.tl a span{display:none}.tl a b{display:none}}
+@media (max-width:980px){
+  .links{display:none}
+  .burger{display:grid}
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .contact-wrap{grid-template-columns:1fr}
+  .right{margin-left:0}
+  .hint{display:none}
+}
+@media (max-width:640px){
+  section{padding:15vh 5vw 14vh}
+  .grid{grid-template-columns:1fr}
+  .card{min-height:0}
+  .vals{grid-template-columns:1fr}
+  nav.top .btn{display:none}
+  .tl{display:none}
+  .tour{left:50%;transform:translateX(-50%)}
+  #hero{align-items:flex-end}
+  #hero::before{background:linear-gradient(0deg,rgba(243,235,223,.92) 0%,rgba(243,235,223,.6) 55%,transparent 100%)}
+  .scrollcue{display:none}
+  .brand b{font-size:20px}
+}
+@media (prefers-reduced-motion:reduce){.rv,.w>span{transition-duration:.01s}.pre-mark .draw{animation:none;stroke-dashoffset:0}}
+</style>
+</head>
+<body>
+
+<div id="pre">
+  <div class="pre-in">
+    <div class="pre-mark">
+      <svg viewBox="0 0 64 64" fill="none" stroke="#8a4a22" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path class="draw" d="M32 8v44M24 52h16M20 56h24M10 18h44M10 18l-6 16h12zM10 18l6 16M54 18l-6 16h12zM54 18l6 16M4 34c0 4 12 4 12 0M48 34c0 4 12 4 12 0"/>
+      </svg>
+    </div>
+    <div class="pre-name">KUMOI</div>
+    <div class="pre-sub">Advocacy &amp; Legal Consultancy</div>
+    <div class="pre-bar"><i id="prebar"></i></div>
+    <div class="pre-pct" id="prepct">0%</div>
+    <div class="msg" id="premsg">The 3D scene could not load (it needs WebGL and a connection to the 3D library). The site content is still available below.</div>
+  </div>
+</div>
+
+<canvas id="gl" aria-hidden="true"></canvas>
+<div class="soft"></div>
+<div class="topbar" id="topbar"></div>
+
+<nav class="top" id="nav">
+  <a class="brand" href="#hero" data-go="0" aria-label="Kumoi for Advocacy and Legal Consultancy home">
+    <span class="mk"><svg viewBox="0 0 64 64" fill="none" stroke="#5b3420" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M32 8v44M22 54h20M10 18h44M10 18l-6 16h12zM10 18l6 16M54 18l-6 16h12zM54 18l6 16"/></svg></span>
+    <span><b>KUMOI</b><small>Advocacy &amp; Legal Consultancy</small></span>
+  </a>
+  <div class="links" id="links">
+    <a href="#hero" data-go="0">Home</a>
+    <a href="#about" data-go="1">About</a>
+    <a href="#services" data-go="2">Services</a>
+    <a href="#process" data-go="3">Process</a>
+    <a href="#values" data-go="4">Values</a>
+    <a href="#contact" data-go="5">Contact</a>
+  </div>
+  <a class="btn sm" href="tel:+211981201118" data-go="5">Get in touch</a>
+  <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false"><i></i></button>
+</nav>
+
+<div id="menu" aria-hidden="true">
+  <button class="x" id="menux">Close</button>
+  <a href="#hero" data-go="0"><em>i.</em>Home</a>
+  <a href="#about" data-go="1"><em>ii.</em>About</a>
+  <a href="#services" data-go="2"><em>iii.</em>Services</a>
+  <a href="#process" data-go="3"><em>iv.</em>Process</a>
+  <a href="#values" data-go="4"><em>v.</em>Values</a>
+  <a href="#contact" data-go="5"><em>vi.</em>Contact</a>
+</div>
+
+<aside class="tl" id="tl" aria-label="Section navigation">
+  <a href="#hero" data-go="0"><span>Home</span><b>i</b><i></i></a>
+  <a href="#about" data-go="1"><span>About</span><b>ii</b><i></i></a>
+  <a href="#services" data-go="2"><span>Services</span><b>iii</b><i></i></a>
+  <a href="#process" data-go="3"><span>Process</span><b>iv</b><i></i></a>
+  <a href="#values" data-go="4"><span>Values</span><b>v</b><i></i></a>
+  <a href="#contact" data-go="5"><span>Contact</span><b>vi</b><i></i></a>
+</aside>
+
+<button class="tour glass" id="tour" aria-pressed="false" aria-label="Toggle auto tour">
+  <span class="ring"><svg class="play" viewBox="0 0 12 12"><path d="M2 1l9 5-9 5z"/></svg><svg class="pause" viewBox="0 0 12 12"><path d="M2 1h3v10H2zM7 1h3v10H7z"/></svg></span>
+  <span id="tourlabel">Auto tour</span>
+</button>
+<div class="hint"><kbd>&darr;</kbd><kbd>&uarr;</kbd> to navigate</div>
+
+<main id="main">
+
+  <section id="hero">
+    <div class="left">
+      <div class="eyebrow rv"><b>i.</b> Kumoi &middot; Juba, South Sudan</div>
+      <h1 data-split>Advocacy and counsel, grounded in <em>justice.</em></h1>
+      <p class="lead rv" style="--d:10;margin-top:26px">Kumoi for Advocacy and Legal Consultancy is a legal practice in Juba, offering clear legal advice and committed representation to individuals, families, communities and businesses.</p>
+      <div class="cta rv" style="--d:11">
+        <a class="btn" href="#contact" data-go="5"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>Book a consultation</a>
+        <a class="btn ghost" href="#about" data-go="1">Explore the practice</a>
+      </div>
+      <div class="meta rv" style="--d:12">
+        <span>Juba, South Sudan</span>
+        <span>+211 981 201 118</span>
+      </div>
+    </div>
+    <div class="scrollcue"><span>Scroll</span><i></i></div>
+  </section>
+
+  <section id="about">
+    <div class="right panel">
+      <div class="eyebrow rv"><b>ii.</b> The Practice</div>
+      <h2 data-split>Clear advice, <em>committed</em> advocacy.</h2>
+      <p class="lead rv" style="--d:3">We help clients understand where they stand, what their options are and what to do next. Our work combines careful legal consultancy with firm advocacy, so you are guided before a problem grows and represented when it must be argued.</p>
+      <div class="pillars">
+        <div class="pillar rv" style="--d:4"><b>1</b><div><h4>Consultancy</h4><p>Practical legal advice you can act on, in plain language.</p></div></div>
+        <div class="pillar rv" style="--d:5"><b>2</b><div><h4>Advocacy</h4><p>A strong, prepared voice for your rights and interests.</p></div></div>
+        <div class="pillar rv" style="--d:6"><b>3</b><div><h4>Integrity</h4><p>Honest assessments and strict confidentiality in every matter.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="head">
+      <div class="t panel">
+        <div class="eyebrow rv" style="margin-bottom:14px"><b>iii.</b> Areas of Service</div>
+        <h2 data-split>Counsel across the <em>law.</em></h2>
+      </div>
+    </div>
+    <div class="grid">
+      <article class="card glass rv" style="--d:1"><span class="n">01</span><h3>Legal Consultancy</h3><p>Advice and opinions that help you decide with confidence before you act.</p></article>
+      <article class="card glass rv" style="--d:2"><span class="n">02</span><h3>Advocacy &amp; Litigation</h3><p>Preparation and representation when a dispute needs to be argued.</p></article>
+      <article class="card glass rv" style="--d:3"><span class="n">03</span><h3>Corporate &amp; Commercial</h3><p>Contracts, agreements and company matters for growing businesses.</p></article>
+      <article class="card glass rv" style="--d:4"><span class="n">04</span><h3>Land &amp; Property</h3><p>Title checks, transfers, leases and disputes, handled with care.</p></article>
+      <article class="card glass rv" style="--d:5"><span class="n">05</span><h3>Family &amp; Succession</h3><p>Sensitive family matters, wills and estates, guided with clarity.</p></article>
+      <article class="card glass rv" style="--d:6"><span class="n">06</span><h3>Employment &amp; Compliance</h3><p>Workplace contracts and practical guidance to stay on the right side of the rules.</p></article>
+    </div>
+  </section>
+
+  <section id="process">
+    <div class="left panel">
+      <div class="eyebrow rv"><b>iv.</b> Our Process</div>
+      <h2 data-split>From first call to <em>final outcome.</em></h2>
+      <div class="steps rv" style="--d:2">
+        <div class="step"><small>Step 01</small><h4>Listen</h4><p>We hear your situation and understand your goals before advising.</p></div>
+        <div class="step"><small>Step 02</small><h4>Advise</h4><p>A clear view of your position, your options and the likely way forward.</p></div>
+        <div class="step"><small>Step 03</small><h4>Act</h4><p>We draft, negotiate, file or represent, whichever your matter needs.</p></div>
+        <div class="step"><small>Step 04</small><h4>Resolve</h4><p>We keep you informed and see the matter through to its close.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="values">
+    <div class="right panel">
+      <div class="eyebrow rv"><b>v.</b> Our Standards</div>
+      <h2 data-split>What you can <em>expect</em> from us.</h2>
+      <p class="lead rv" style="--d:3">Legal matters are rarely small to the people facing them. These are the standards we hold ourselves to.</p>
+      <div class="vals">
+        <div class="val rv" style="--d:4"><svg viewBox="0 0 32 32"><path d="M16 4l11 4v8c0 7-5 11-11 13C10 27 5 23 5 16V8z"/><path d="M11 16l4 4 7-8"/></svg><h4>Confidentiality</h4><p>Your matter stays your matter.</p></div>
+        <div class="val rv" style="--d:5"><svg viewBox="0 0 32 32"><path d="M5 7h22v15H13l-8 5z"/><path d="M11 13h10M11 17h6"/></svg><h4>Candour</h4><p>Honest, plain-language advice.</p></div>
+        <div class="val rv" style="--d:6"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="11"/><path d="M16 9v7l5 3"/></svg><h4>Diligence</h4><p>Careful preparation, on time.</p></div>
+        <div class="val rv" style="--d:7"><svg viewBox="0 0 32 32"><path d="M16 4v24M8 28h16M5 10h22M5 10l-3 8h6zM5 10l3 8M27 10l-3 8h6zM27 10l3 8"/></svg><h4>Fairness</h4><p>A voice for every client.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="contact-wrap">
+      <div class="left panel">
+        <div class="eyebrow rv"><b>vi.</b> Contact</div>
+        <h2 data-split>Speak with an <em>advocate.</em></h2>
+        <p class="lead rv" style="--d:4">Call the office to arrange a consultation. We will listen first, then advise you honestly on how we can help.</p>
+        <div class="cta rv" style="--d:5">
+          <a class="btn" href="tel:+211981201118"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>Call +211 981 201 118</a>
+          <a class="btn ghost" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=VJ36%2BJM%20Juba%20South%20Sudan">Get directions</a>
+        </div>
+      </div>
+      <div class="info glass rv" style="--d:3">
+        <div class="row"><svg viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          <div><small>Office</small><span>Juba, South Sudan</span><span class="sub">Plus Code: VJ36+JM</span></div></div>
+        <div class="row"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+          <div><small>Telephone</small><span><a href="tel:+211981201118">+211 981 201 118</a><button class="copy" id="copy" type="button">Copy</button></span></div></div>
+        <div class="row"><svg viewBox="0 0 24 24"><path d="M9 20l-5-2V5l5 2 6-2 5 2v13l-5-2z"/><path d="M9 7v13M15 5v13"/></svg>
+          <div><small>Find us</small><span><a class="u" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=VJ36%2BJM%20Juba%20South%20Sudan">Open in Google Maps</a></span></div></div>
+      </div>
+    </div>
+    <footer>
+      <span>&copy; 2026 <em>Kumoi for Advocacy and Legal Consultancy</em>. All rights reserved.</span>
+      <span>Information on this site is general and is not legal advice.</span>
+    </footer>
+  </section>
+</main>
+
+<script>
+window.__reveal = function(){ document.body.classList.add('loaded'); };
+setTimeout(function(){
+  if(!window.__3dStarted){
+    document.getElementById('premsg').style.display='block';
+    setTimeout(function(){ window.__reveal(); document.querySelectorAll('section').forEach(function(s){s.classList.add('in')}); },2600);
+  }
+}, 9000);
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+window.__3dStarted = true;
+history.scrollRestoration = 'manual';
+scrollTo(0,0);
+
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isMobile = matchMedia('(max-width: 800px)').matches;
+const $ = (s,r=document)=>r.querySelector(s);
+const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
+const clamp = (v,a,b)=>Math.min(b,Math.max(a,v));
+const V = (x,y,z)=>new THREE.Vector3(x,y,z);
+
+/* ------------------------------------------------------------ renderer */
+const renderer = new THREE.WebGLRenderer({ canvas:$('#gl'), antialias:true, powerPreference:'high-performance' });
+renderer.setPixelRatio(Math.min(devicePixelRatio, isMobile ? 1.5 : 2));
+renderer.setSize(innerWidth, innerHeight);
+renderer.toneMapping = THREE.NeutralToneMapping;
+renderer.shadowMap.enabled = !isMobile;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+const scene = new THREE.Scene();
+(function sky(){
+  const c = document.createElement('canvas'); c.width = 4; c.height = 256;
+  const g = c.getContext('2d'), gr = g.createLinearGradient(0,0,0,256);
+  gr.addColorStop(0,'#e9c9a0'); gr.addColorStop(0.5,'#f4dcbd'); gr.addColorStop(1,'#f6efe4');
+  g.fillStyle = gr; g.fillRect(0,0,4,256);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; scene.background = t;
+})();
+scene.fog = new THREE.FogExp2(0xf0dfc7, 0.0085);
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+scene.environmentIntensity = 0.55;
+
+const camera = new THREE.PerspectiveCamera(45, innerWidth/innerHeight, 0.1, 500);
+
+/* ----------------------------------------------------------- materials */
+const stone = new THREE.MeshStandardMaterial({ color:0xeadcc6, roughness:0.75 });
+const stoneDk = new THREE.MeshStandardMaterial({ color:0xcdb797, roughness:0.8 });
+const brass = new THREE.MeshStandardMaterial({ color:0xc28a4c, metalness:1, roughness:0.26 });
+const brown = new THREE.MeshPhysicalMaterial({ color:0x5b3420, roughness:0.3, metalness:0.1, clearcoat:1, clearcoatRoughness:0.12 });
+const cream = new THREE.MeshPhysicalMaterial({ color:0xf3e6d0, roughness:0.2, clearcoat:0.6 });
+
+function box(w,h,d,mat,x,y,z,parent=scene){
+  const m = new THREE.Mesh(new THREE.BoxGeometry(w,h,d), mat);
+  m.position.set(x,y,z); m.castShadow = true; m.receiveShadow = true; parent.add(m); return m;
+}
+function cyl(rt,rb,h,mat,x,y,z,seg=48,parent=scene){
+  const m = new THREE.Mesh(new THREE.CylinderGeometry(rt,rb,h,seg), mat);
+  m.position.set(x,y,z); m.castShadow = true; m.receiveShadow = true; parent.add(m); return m;
+}
+function rod(a, b, r, mat){
+  const dir = new THREE.Vector3().subVectors(b, a), len = dir.length();
+  const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, len, 8), mat);
+  m.position.copy(a).addScaledVector(dir, 0.5);
+  m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0), dir.normalize());
+  return m;
+}
+
+/* ------------------------------------------------------------ textures */
+function plazaTexture(){
+  const s = 1024, c = document.createElement('canvas'); c.width = c.height = s;
+  const g = c.getContext('2d'), m = s/2;
+  g.fillStyle = '#efe2cc'; g.fillRect(0,0,s,s);
+  for(let i=0;i<40;i++){
+    const x = Math.random()*s, y = Math.random()*s, r = 40+Math.random()*160;
+    const gr = g.createRadialGradient(x,y,0,x,y,r);
+    gr.addColorStop(0,'rgba(180,150,110,'+(0.05+Math.random()*0.07)+')'); gr.addColorStop(1,'rgba(180,150,110,0)');
+    g.fillStyle = gr; g.fillRect(0,0,s,s);
+  }
+  g.translate(m,m);
+  g.strokeStyle = 'rgba(91,52,32,.55)';
+  [0.96,0.62,0.34].forEach((k,i)=>{ g.lineWidth = i===0?5:2.5; g.beginPath(); g.arc(0,0,m*k,0,Math.PI*2); g.stroke(); });
+  g.strokeStyle = 'rgba(184,134,63,.7)'; g.lineWidth = 2;
+  g.beginPath(); g.arc(0,0,m*0.5,0,Math.PI*2); g.stroke();
+  g.strokeStyle = 'rgba(91,52,32,.3)'; g.lineWidth = 1.5;
+  for(let i=0;i<24;i++){ const a = i/24*Math.PI*2; g.beginPath(); g.moveTo(Math.cos(a)*m*0.34,Math.sin(a)*m*0.34); g.lineTo(Math.cos(a)*m*0.96,Math.sin(a)*m*0.96); g.stroke(); }
+  g.fillStyle = 'rgba(138,74,34,.5)';
+  for(let i=0;i<12;i++){ const a = (i+0.5)/12*Math.PI*2; g.save(); g.rotate(a); g.beginPath(); g.moveTo(m*0.62,0); g.lineTo(m*0.7,10); g.lineTo(m*0.78,0); g.lineTo(m*0.7,-10); g.closePath(); g.fill(); g.restore(); }
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; return t;
+}
+function fluteTexture(){
+  const c = document.createElement('canvas'); c.width = 256; c.height = 8;
+  const g = c.getContext('2d');
+  for(let i=0;i<8;i++){
+    const x = i*32, gg = g.createLinearGradient(x,0,x+32,0);
+    gg.addColorStop(0,'#fff'); gg.addColorStop(.5,'#555'); gg.addColorStop(1,'#fff');
+    g.fillStyle = gg; g.fillRect(x,0,32,8);
+  }
+  const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(3,1); return t;
+}
+const shaftMat = new THREE.MeshStandardMaterial({ color:0xf0e3cd, roughness:0.62, bumpMap:fluteTexture(), bumpScale:2.2 });
+
+/* -------------------------------------------------------------- ground */
+const ground = new THREE.Mesh(new THREE.CircleGeometry(260,64), new THREE.MeshStandardMaterial({ color:0xdcc7a4, roughness:0.95 }));
+ground.rotation.x = -Math.PI/2; ground.receiveShadow = true; scene.add(ground);
+
+const PL = 0.6; // plaza height
+cyl(31,32,PL, stone, 0, PL/2, 0, 96);
+cyl(33.4,34,0.3, stoneDk, 0, 0.15, 0, 96);
+const plaza = new THREE.Mesh(new THREE.CircleGeometry(31,96), new THREE.MeshStandardMaterial({ map:plazaTexture(), roughness:0.45 }));
+plaza.rotation.x = -Math.PI/2; plaza.position.y = PL+0.003; plaza.receiveShadow = true; scene.add(plaza);
+
+/* ------------------------------------------- central pillar + scales */
+cyl(4.6,5.2,0.5, stoneDk, 0, PL+0.25, 0, 64);
+cyl(3.6,4.2,0.5, stone, 0, PL+0.75, 0, 64);
+cyl(2.7,3.2,0.5, stoneDk, 0, PL+1.25, 0, 64);
+const SB = PL+1.5;                                   // top of steps
+cyl(1.9,2.1,0.7, brown, 0, SB+0.35, 0, 48);          // plinth
+cyl(1.0,1.25,9, shaftMat, 0, SB+0.7+4.5, 0, 56);     // shaft
+cyl(1.5,1.1,0.7, stone, 0, SB+0.7+9.35, 0, 48);      // capital
+box(3.6,0.5,3.6, brown, 0, SB+0.7+9.95, 0);          // abacus
+const TOPY = SB+0.7+10.2;
+
+const scales = new THREE.Group(); scales.position.set(0,TOPY,0); scene.add(scales);
+cyl(0.18,0.34,2.4, brass, 0,1.2,0, 32, scales);
+const finial = new THREE.Mesh(new THREE.SphereGeometry(0.34,32,24), brown); finial.position.y = 2.7; finial.castShadow = true; scales.add(finial);
+const beam = new THREE.Group(); beam.position.y = 2.3; scales.add(beam);
+const bar = new THREE.Mesh(new THREE.CylinderGeometry(0.1,0.1,8,20), brass); bar.rotation.z = Math.PI/2; bar.castShadow = true; beam.add(bar);
+[-4,4].forEach(x=>{ const k = new THREE.Mesh(new THREE.SphereGeometry(0.2,20,16), brown); k.position.x = x; beam.add(k); });
+function makePan(){
+  const g = new THREE.Group();
+  const disc = new THREE.Mesh(new THREE.CylinderGeometry(1.8,1.35,0.22,64), brass); disc.position.y = -3.2; disc.castShadow = true; g.add(disc);
+  const rim = new THREE.Mesh(new THREE.TorusGeometry(1.8,0.05,10,80), brass); rim.rotation.x = Math.PI/2; rim.position.y = -3.1; g.add(rim);
+  [90,210,330].forEach(d=>{ const a = d*Math.PI/180; g.add(rod(V(0,0,0), V(Math.cos(a)*1.75,-3.1,Math.sin(a)*1.75), 0.018, brass)); });
+  return g;
+}
+const panL = makePan(), panR = makePan();
+panL.position.x = -4; panR.position.x = 4; beam.add(panL, panR);
+const orb = new THREE.Mesh(new THREE.SphereGeometry(0.55,48,32), brown); orb.position.y = -2.6; orb.castShadow = true; panL.add(orb);
+const cube = new THREE.Mesh(new THREE.BoxGeometry(0.95,0.95,0.95), cream); cube.position.y = -2.65; cube.castShadow = true; panR.add(cube);
+
+// orbiting rings around the scales
+const rings = new THREE.Group(); rings.position.set(0, TOPY+2.2, 0); scene.add(rings);
+[[6.2,0.03],[7.4,0.025],[8.8,0.02]].forEach(([r,t],i)=>{
+  const m = new THREE.Mesh(new THREE.TorusGeometry(r,t,8,128), brass);
+  m.rotation.x = Math.PI/2 + (i-1)*0.5; m.rotation.y = i*0.9; rings.add(m);
+});
+
+/* -------------------------------------------------------- colonnade */
+const R = 17, CH = 9;
+function column(x,z){
+  const g = new THREE.Group(); g.position.set(x,PL,z); scene.add(g);
+  box(2.3,0.35,2.3, stone, 0,0.175,0, g);
+  cyl(1.0,1.1,0.4, stone, 0,0.55,0, 40, g);
+  cyl(0.7,0.84,CH-1.9, shaftMat, 0, 0.75+(CH-1.9)/2, 0, 48, g);
+  cyl(1.0,0.74,0.5, stone, 0,CH-1.1,0, 40, g);
+  box(2.2,0.4,2.2, stone, 0,CH-0.65,0, g);
+  g.rotation.y = -Math.atan2(z,x);
+  return g;
+}
+const NC = 12, chord = 2*R*Math.sin(Math.PI/NC);
+for(let i=0;i<NC;i++){
+  const a = i/NC*Math.PI*2;
+  column(Math.cos(a)*R, Math.sin(a)*R);
+  const b = (i+0.5)/NC*Math.PI*2;
+  const bm = box(chord+0.9, 1.2, 1.9, stone, Math.cos(b)*R*Math.cos(Math.PI/NC), PL+CH+0.1, Math.sin(b)*R*Math.cos(Math.PI/NC));
+  bm.rotation.y = -(b + Math.PI/2);
+  const fr = box(chord+0.9, 0.35, 2.2, brown, Math.cos(b)*R*Math.cos(Math.PI/NC), PL+CH+0.85, Math.sin(b)*R*Math.cos(Math.PI/NC));
+  fr.rotation.y = bm.rotation.y;
+}
+
+// low benches / lanterns at the plaza edge (warm points of light)
+for(let i=0;i<6;i++){
+  const a = (i+0.5)/6*Math.PI*2, x = Math.cos(a)*25, z = Math.sin(a)*25;
+  cyl(0.18,0.26,2.6, brass, x, PL+1.3, z, 16);
+  const lamp = new THREE.Mesh(new THREE.SphereGeometry(0.45,24,16), new THREE.MeshBasicMaterial({ color:0xffe3b0 }));
+  lamp.position.set(x, PL+3.0, z); scene.add(lamp);
+}
+
+/* --------------------------------------------------------------- motes */
+const MN = isMobile ? 350 : 900;
+const mpos = new Float32Array(MN*3), mspd = new Float32Array(MN);
+for(let i=0;i<MN;i++){
+  const a = Math.random()*Math.PI*2, r = Math.sqrt(Math.random())*30;
+  mpos[i*3] = Math.cos(a)*r; mpos[i*3+1] = 1+Math.random()*22; mpos[i*3+2] = Math.sin(a)*r; mspd[i] = 0.05+Math.random()*0.12;
+}
+const mgeo = new THREE.BufferGeometry(); mgeo.setAttribute('position', new THREE.BufferAttribute(mpos,3));
+scene.add(new THREE.Points(mgeo, new THREE.PointsMaterial({ color:0xffe2b0, size:0.09, sizeAttenuation:true, transparent:true, opacity:0.85, depthWrite:false })));
+
+/* -------------------------------------------------------------- lights */
+scene.add(new THREE.HemisphereLight(0xfff0dc, 0xb39a78, 0.9));
+const sun = new THREE.DirectionalLight(0xffe2b8, 3.7);
+sun.position.set(-26,38,20); sun.target.position.set(0,2,0);
+sun.castShadow = !isMobile;
+sun.shadow.mapSize.set(4096,4096);
+Object.assign(sun.shadow.camera,{ left:-40, right:40, top:40, bottom:-40, near:1, far:140 });
+sun.shadow.bias = -0.0002; sun.shadow.normalBias = 0.05;
+scene.add(sun, sun.target);
+const glow = new THREE.PointLight(0xffd9a0, 120, 0, 2); glow.position.set(0,TOPY+1,0); scene.add(glow);
+
+/* --------------------------------------------------------- camera path */
+const CY = TOPY+2.0;
+const camCurve = new THREE.CatmullRomCurve3([
+  V(0,9,50),          // hero: wide front view
+  V(-30,13,30),       // about: orbit left
+  V(-37,17,-8),       // services
+  V(8,20,-34),        // process: from behind
+  V(9.5,CY+0.5,11),   // values: close to the scales
+  V(0,32,36)          // contact: high pull-back
+], false, 'centripetal');
+const lookCurve = new THREE.CatmullRomCurve3([
+  V(6,TOPY-3,0),
+  V(0,TOPY,0),
+  V(0,TOPY-2,0),
+  V(0,TOPY-1,0),
+  V(0,CY-0.5,0),
+  V(0,TOPY-6,0)
+], false, 'centripetal');
+
+/* -------------------------------------------------------- scroll state */
+const sections = $$('main > section'), N = sections.length;
+let tops = [];
+const measure = ()=>{ tops = sections.map(s=>s.offsetTop); };
+measure();
+new ResizeObserver(measure).observe(document.body);
+addEventListener('load', measure);
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+function secPos(){
+  const y = scrollY; let i = 0;
+  for(let k=0;k<tops.length;k++) if(y >= tops[k]-1) i = k;
+  const nx = tops[i+1]; if(nx === undefined) return i;
+  return i + clamp((y-tops[i])/(nx-tops[i]), 0, 1);
+}
+let sp = 0, spVel = 0, introT = reduceMotion ? 1 : 0, started = false;
+let mx = 0, my = 0, mxs = 0, mys = 0;
+addEventListener('pointermove', e=>{ mx = e.clientX/innerWidth*2-1; my = e.clientY/innerHeight*2-1; }, {passive:true});
+
+/* ---------------------------------------------------------------- loop */
+const tmpP = new THREE.Vector3(), tmpT = new THREE.Vector3();
+let last = performance.now(), time = 0, tilt = 0;
+function frame(now){
+  const dt = Math.min((now-last)/1000, 0.05); last = now; time += dt;
+  const target = secPos(), prev = sp;
+  sp += (target-sp)*(1-Math.exp(-dt*3.0));
+  spVel += (((sp-prev)/Math.max(dt,1e-4)) - spVel)*(1-Math.exp(-dt*6));
+  if(started && introT < 1) introT = Math.min(1, introT + dt/3.4);
+  const ie = 1 - Math.pow(1-introT, 4);
+
+  const t = clamp(sp/(N-1), 0, 1);
+  camCurve.getPoint(t, tmpP); lookCurve.getPoint(t, tmpT);
+  mxs += (mx-mxs)*(1-Math.exp(-dt*3)); mys += (my-mys)*(1-Math.exp(-dt*3));
+  camera.position.set(
+    tmpP.x + mxs*0.9 + (1-ie)*14,
+    tmpP.y - mys*0.5 + Math.sin(time*.45)*.1 + (1-ie)*16,
+    tmpP.z + (1-ie)*30
+  );
+  camera.lookAt(tmpT.x + mxs*0.3, tmpT.y - mys*0.25, tmpT.z);
+
+  const tt = Math.sin(time*0.7)*0.05 + clamp(spVel*1.3,-.3,.3);
+  tilt += (tt-tilt)*(1-Math.exp(-dt*3));
+  beam.rotation.z = tilt; panL.rotation.z = -tilt; panR.rotation.z = -tilt;
+  orb.position.y = -2.6 + Math.sin(time*1.6)*0.04; cube.rotation.y += dt*0.5;
+  finial.rotation.y += dt*0.6;
+  rings.rotation.y += dt*0.12; rings.rotation.z = Math.sin(time*0.3)*0.1;
+
+  const arr = mgeo.attributes.position.array;
+  for(let i=0;i<MN;i++){ let y = arr[i*3+1] + mspd[i]*dt; if(y > 23) y = 1; arr[i*3+1] = y; arr[i*3] += Math.sin(time*0.3+i)*dt*0.06; }
+  mgeo.attributes.position.needsUpdate = true;
+
+  renderer.render(scene, camera);
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+
+function resize(){
+  const w = innerWidth, h = innerHeight, a = w/h;
+  camera.aspect = a; camera.fov = a < 0.8 ? 66 : a < 1.2 ? 54 : 45; camera.updateProjectionMatrix();
+  renderer.setSize(w,h);
+}
+addEventListener('resize', resize); resize();
+
+/* ---------------------------------------------------------- UI helpers */
+function splitWords(el){
+  let i = 0;
+  (function walk(node){
+    [...node.childNodes].forEach(ch=>{
+      if(ch.nodeType === 3){
+        const frag = document.createDocumentFragment();
+        ch.textContent.split(/(\s+)/).forEach(part=>{
+          if(!part) return;
+          if(/^\s+$/.test(part)){ frag.appendChild(document.createTextNode(' ')); return; }
+          const w = document.createElement('span'); w.className = 'w';
+          const s = document.createElement('span'); s.textContent = part; s.style.setProperty('--i', i++);
+          w.appendChild(s); frag.appendChild(w);
+        });
+        ch.replaceWith(frag);
+      } else if(ch.nodeType === 1){ walk(ch); }
+    });
+  })(el);
+}
+$$('[data-split]').forEach(splitWords);
+
+const io = new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle('in', e.isIntersecting)), { threshold:0.25 });
+sections.forEach(s=>io.observe(s));
+
+const nav = $('#nav'), navLinks = $$('#links a'), tlLinks = $$('#tl a'), tourBtn = $('#tour'), tourLabel = $('#tourlabel'), topbar = $('#topbar');
+function hud(){
+  nav.classList.toggle('scrolled', scrollY > 40);
+  const idx = clamp(Math.round(secPos()), 0, N-1);
+  navLinks.forEach(a=>a.classList.toggle('on', +a.dataset.go === idx));
+  tlLinks.forEach((a,i)=>a.classList.toggle('on', i===idx));
+  const p = clamp(secPos()/(N-1),0,1);
+  tourBtn.style.setProperty('--p', p); topbar.style.setProperty('--p', p);
+}
+addEventListener('scroll', hud, {passive:true}); hud();
+
+/* --------------------------------------------- smooth scroll + auto tour */
+let anim = null;
+const maxScroll = ()=>document.documentElement.scrollHeight - innerHeight;
+function scrollToY(y, dur, done){
+  cancelAnimationFrame(anim);
+  const y0 = scrollY, t0 = performance.now();
+  y = clamp(y, 0, maxScroll());
+  (function step(n){
+    const k = clamp((n-t0)/dur, 0, 1), e = k < .5 ? 4*k*k*k : 1 - Math.pow(-2*k+2,3)/2;
+    scrollTo(0, y0 + (y-y0)*e);
+    if(k < 1) anim = requestAnimationFrame(step); else { anim = null; done && done(); }
+  })(t0);
+}
+const goTo = i => { i = clamp(i,0,N-1); scrollToY(i === N-1 ? maxScroll() : tops[i], 2200); };
+
+let tourOn = false, tourTimer = null;
+function currentIndex(){
+  if(scrollY >= maxScroll()-4) return N-1;
+  let best = 0, d = 1e9;
+  tops.forEach((t,i)=>{ const dd = Math.abs(t-scrollY); if(dd < d){ d = dd; best = i; } });
+  return best;
+}
+function tourNext(){
+  if(!tourOn) return;
+  const next = (currentIndex()+1) % N;
+  const y = next === 0 ? 0 : next === N-1 ? maxScroll() : tops[next];
+  scrollToY(y, next === 0 ? 4600 : 3200, ()=>{ if(tourOn) tourTimer = setTimeout(tourNext, next === N-1 ? 5200 : 4800); });
+}
+function tourStart(){
+  tourOn = true; tourBtn.classList.add('on'); tourBtn.setAttribute('aria-pressed','true'); tourLabel.textContent = 'Pause tour';
+  clearTimeout(tourTimer); tourTimer = setTimeout(tourNext, 500);
+}
+function tourStop(){
+  if(!tourOn) return;
+  tourOn = false; clearTimeout(tourTimer); cancelAnimationFrame(anim); anim = null;
+  tourBtn.classList.remove('on'); tourBtn.setAttribute('aria-pressed','false'); tourLabel.textContent = 'Resume tour';
+}
+tourBtn.addEventListener('click', ()=> tourOn ? tourStop() : tourStart());
+['wheel','touchstart','pointerdown'].forEach(ev=>addEventListener(ev, e=>{
+  if(!tourOn) return;
+  if(e.target && e.target.closest && e.target.closest('#tour')) return;
+  tourStop();
+}, {passive:true}));
+addEventListener('keydown', e=>{
+  if(['ArrowDown','PageDown'].includes(e.key)){ e.preventDefault(); tourStop(); goTo(currentIndex()+1); }
+  else if(['ArrowUp','PageUp'].includes(e.key)){ e.preventDefault(); tourStop(); goTo(currentIndex()-1); }
+  else if(tourOn) tourStop();
+});
+
+/* mobile menu */
+const menu = $('#menu'), burger = $('#burger');
+const setMenu = o=>{ menu.classList.toggle('open', o); burger.setAttribute('aria-expanded', o); menu.setAttribute('aria-hidden', !o); };
+burger.addEventListener('click', ()=>setMenu(true));
+$('#menux').addEventListener('click', ()=>setMenu(false));
+$$('[data-go]').forEach(a=>a.addEventListener('click', e=>{
+  if(a.tagName === 'A' && a.getAttribute('href') && a.getAttribute('href').startsWith('tel:') && matchMedia('(max-width:980px)').matches){ return; }
+  e.preventDefault(); tourStop(); setMenu(false); goTo(+a.dataset.go);
+}));
+
+/* card tilt + copy */
+$$('.card').forEach(c=>{
+  c.addEventListener('pointermove', e=>{
+    const r = c.getBoundingClientRect(), x = (e.clientX-r.left)/r.width, y = (e.clientY-r.top)/r.height;
+    c.style.transform = `rotateX(${(.5-y)*9}deg) rotateY(${(x-.5)*11}deg) translateZ(8px)`;
+    c.style.setProperty('--mx', x*100+'%'); c.style.setProperty('--my', y*100+'%');
+  });
+  c.addEventListener('pointerleave', ()=>{ c.style.transform = ''; });
+});
+const copyBtn = $('#copy');
+copyBtn.addEventListener('click', async ()=>{
+  try{ await navigator.clipboard.writeText('+211981201118'); copyBtn.textContent = 'Copied'; }
+  catch(e){ copyBtn.textContent = '+211981201118'; }
+  setTimeout(()=>copyBtn.textContent = 'Copy', 1800);
+});
+
+/* ---------------------------------------------------------------- intro */
+const prebar = $('#prebar'), prepct = $('#prepct');
+(function loadAnim(){
+  const t0 = performance.now(), dur = 1800;
+  (function s(n){
+    const k = clamp((n-t0)/dur,0,1), e = 1-Math.pow(1-k,3);
+    prebar.style.transform = `scaleX(${e})`; prepct.textContent = Math.round(e*100)+'%';
+    if(k<1) requestAnimationFrame(s);
+    else setTimeout(()=>{
+      window.__reveal(); started = true;
+      setTimeout(()=>sections[0].classList.add('in'), 500);
+      if(!reduceMotion) setTimeout(()=>{ if(scrollY < 10 && !tourOn) tourStart(); }, 7000);
+    }, 250);
+  })(t0);
+})();
+</script>
+</body>
+</html>
